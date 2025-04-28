@@ -16,13 +16,6 @@ def main():
     # Load data from spreadsheet and split into train and test sets
     evidence, labels = load_data(sys.argv[1])
 
-    # data = load_data(sys.argv[1])
-    # for i in range(len(data[0])):
-    #     print(f"Row {i}:")
-    #     print(f"  Evidence: {data[0][i]}")
-    #     print(f"  Label: {data[1][i]}")
-    #     print()
-
     X_train, X_test, y_train, y_test = train_test_split(
         evidence, labels, test_size=TEST_SIZE
     )
@@ -118,7 +111,10 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    raise NotImplementedError
+    print("Training model...")
+    model = KNeighborsClassifier(n_neighbors=1)
+    model.fit(evidence, labels)
+    return model
 
 
 def evaluate(labels, predictions):
