@@ -24,6 +24,8 @@ def main():
     model = train_model(X_train, y_train)
     predictions = model.predict(X_test)
     sensitivity, specificity = evaluate(y_test, predictions)
+    # print(f"True Positive Rate: {sensitivity}")
+    # print(f"True Negative Rate: {specificity}")
 
     # Print results
     print(f"Correct: {(y_test == predictions).sum()}")
@@ -60,7 +62,7 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-    print("Loading data...")
+    # print("Loading data...")
 
     def convert_month(month):
         """
@@ -111,7 +113,7 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    print("Training model...")
+    # print("Training model...")
     model = KNeighborsClassifier(n_neighbors=1)
     model.fit(evidence, labels)
     return model
@@ -132,7 +134,18 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-    raise NotImplementedError
+    sensitivity = 0
+    specificity = 0
+    # Calculate sensitivity and specificity
+    for i in range(len(labels)):
+        if labels[i] == 1 and predictions[i] == 1:
+            sensitivity += 1
+        elif labels[i] == 0 and predictions[i] == 0:
+            specificity += 1
+        
+    sensitivity /= sum(1 for label in labels if label == 1)
+    specificity /= sum(1 for label in labels if label == 0)
+    return (sensitivity, specificity)
 
 
 if __name__ == "__main__":
